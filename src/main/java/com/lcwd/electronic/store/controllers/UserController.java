@@ -32,6 +32,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @Api(value = "UserController", description = "REST APIs related to perform user operations !!")
+//@CrossOrigin("*")
 public class UserController {
 
     @Autowired

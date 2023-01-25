@@ -22,11 +22,8 @@ public class SwaggerConfig {
     public Docket docket() {
         Docket docket = new Docket(DocumentationType.SWAGGER_2);
         docket.apiInfo(getApiInfo());
-
-
         docket.securityContexts(Arrays.asList(getSecurityContext()));
         docket.securitySchemes(Arrays.asList(getSchemes()));
-
         ApiSelectorBuilder select = docket.select();
         select.apis(RequestHandlerSelectors.any());
         select.paths(PathSelectors.any());
