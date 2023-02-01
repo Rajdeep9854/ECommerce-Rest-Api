@@ -34,8 +34,6 @@ public class CategoryServiceImpl implements CategoryService {
         String categoryId = UUID.randomUUID().toString();
         categoryDto.setCategoryId(categoryId);
         Category category = mapper.map(categoryDto, Category.class);
-
-
         Category savedCategory = categoryRepository.save(category);
         return mapper.map(savedCategory, CategoryDto.class);
     }

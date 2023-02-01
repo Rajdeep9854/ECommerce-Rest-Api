@@ -79,7 +79,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(UserDto userDto, String userId) {
-
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with given id !!"));
         user.setName(userDto.getName());
         //email update
@@ -97,8 +96,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with given id !!"));
-
-
         //delete user profile image
         //images/user/abc.png
         String fullPath = imagePath + user.getImageName();
@@ -122,7 +119,6 @@ public class UserServiceImpl implements UserService {
     public PageableResponse<UserDto> getAllUser(int pageNumber, int pageSize, String sortBy, String sortDir) {
 
         Sort sort = (sortDir.equalsIgnoreCase("desc")) ? (Sort.by(sortBy).descending()) : (Sort.by(sortBy).ascending());
-
 //        pageNumber default starts from 0
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
 
@@ -131,6 +127,7 @@ public class UserServiceImpl implements UserService {
         PageableResponse<UserDto> response = Helper.getPageableResponse(page, UserDto.class);
 
         return response;
+
     }
 
     @Override
@@ -156,10 +153,7 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findUserByEmailOptional(String email) {
         return userRepository.findByEmail(email);
     }
-
-
     private UserDto entityToDto(User savedUser) {
-
 //        UserDto userDto = UserDto.builder()
 //                .userId(savedUser.getUserId())
 //                .name(savedUser.getName())
@@ -169,7 +163,6 @@ public class UserServiceImpl implements UserService {
 //                .gender(savedUser.getGender())
 //                .imageName(savedUser.getImageName())
 //                .build();
-
         return mapper.map(savedUser, UserDto.class);
 
     }
@@ -184,7 +177,6 @@ public class UserServiceImpl implements UserService {
 //                .gender(userDto.getGender())
 //                .imageName(userDto.getImageName())
 //                .build();
-
         return mapper.map(userDto, User.class);
     }
 }
