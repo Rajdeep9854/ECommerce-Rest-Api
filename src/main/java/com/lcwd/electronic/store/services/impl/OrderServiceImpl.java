@@ -2,6 +2,7 @@ package com.lcwd.electronic.store.services.impl;
 
 import com.lcwd.electronic.store.dtos.CreateOrderRequest;
 import com.lcwd.electronic.store.dtos.OrderDto;
+import com.lcwd.electronic.store.dtos.OrderUpdateRequest;
 import com.lcwd.electronic.store.dtos.PageableResponse;
 import com.lcwd.electronic.store.entities.*;
 import com.lcwd.electronic.store.exceptions.BadApiRequestException;
@@ -89,8 +90,11 @@ public class OrderServiceImpl implements OrderService {
             return orderItem;
         }).collect(Collectors.toList());
 
+
         order.setOrderItems(orderItems);
         order.setOrderAmount(orderAmount.get());
+
+        System.out.println(order.getOrderItems().size());
 
         //
         cart.getItems().clear();
@@ -122,5 +126,20 @@ public class OrderServiceImpl implements OrderService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
         Page<Order> page = orderRepository.findAll(pageable);
         return Helper.getPageableResponse(page, OrderDto.class);
+    }
+
+    @Override
+    public OrderDto updateOrder(String orderId, OrderUpdateRequest request) {
+
+        //get the order
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new BadApiRequestException("Invalid update data"));
+        order.setBillingName(request.getBillingName());
+        order.setBillingPhone(request.getBillingPhone());
+        order.setBillingAddress(request.getBillingAddress());
+        order.setPaymentStatus(request.getPaymentStatus());
+        order.setOrderStatus(request.getOrderStatus());
+        order.setDeliveredDate(request.getDeliveredDate());
+        Order updatedOrder = orderRepository.save(order);
+        return modelMapper.map(updatedOrder, OrderDto.class);
     }
 }

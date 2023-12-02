@@ -123,6 +123,7 @@ public class CartServiceImpl implements CartService {
     public CartDto getCartByUser(String userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user not found in database!!"));
         Cart cart = cartRepository.findByUser(user).orElseThrow(() -> new ResourceNotFoundException("Cart of given user not found !!"));
+
         return mapper.map(cart, CartDto.class);
     }
 }

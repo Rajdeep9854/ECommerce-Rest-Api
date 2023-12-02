@@ -22,13 +22,10 @@ public class ElectronicStoreApplication implements CommandLineRunner {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private RoleRepository repository;
-
     @Value("${normal.role.id}")
     private String role_normal_id;
-
     @Value("${admin.role.id}")
     private String role_admin_id;
 

@@ -93,7 +93,6 @@ public class SecurityConfig {
 
         http.csrf()
                 .disable()
-
                 .authorizeRequests()
                 .antMatchers("/auth/login")
                 .permitAll()
@@ -104,6 +103,8 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
                 .antMatchers(PUBLIC_URLS)
                 .permitAll()
+                .antMatchers(HttpMethod.GET)
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -112,7 +113,6 @@ public class SecurityConfig {
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
@@ -137,7 +137,7 @@ public class SecurityConfig {
     }
 
 
-   // CORS Configuration
+    // CORS Configuration
     @Bean
     public FilterRegistrationBean corsFilter() {
 

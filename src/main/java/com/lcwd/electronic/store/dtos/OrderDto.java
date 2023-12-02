@@ -29,5 +29,8 @@ public class OrderDto {
     //private UserDto user;
     private List<OrderItemDto> orderItems = new ArrayList<>();
 
+    //add this to get user information with order
+    private  UserDto user;
+
 
 }

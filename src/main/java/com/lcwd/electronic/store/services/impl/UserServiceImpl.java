@@ -65,8 +65,6 @@ public class UserServiceImpl implements UserService {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         // dto->entity
         User user = dtoToEntity(userDto);
-
-
         //fetch role of normal and set it to user
         Role role = roleRepository.findById(normalRoleId).get();
         user.getRoles().add(role);
@@ -84,9 +82,11 @@ public class UserServiceImpl implements UserService {
         //email update
         user.setAbout(userDto.getAbout());
         user.setGender(userDto.getGender());
-        user.setPassword(userDto.getPassword());
-        user.setImageName(userDto.getImageName());
 
+        if (!userDto.getPassword().equalsIgnoreCase(user.getPassword()))
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+        user.setImageName(userDto.getImageName());
         //save data
         User updatedUser = userRepository.save(user);
         UserDto updatedDto = entityToDto(updatedUser);
@@ -153,6 +153,7 @@ public class UserServiceImpl implements UserService {
     public Optional<User> findUserByEmailOptional(String email) {
         return userRepository.findByEmail(email);
     }
+
     private UserDto entityToDto(User savedUser) {
 //        UserDto userDto = UserDto.builder()
 //                .userId(savedUser.getUserId())
